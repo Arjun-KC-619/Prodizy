@@ -5,6 +5,23 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { Mail, Phone, MapPin, Clock, Send, ArrowRight, Sparkles, Zap, Heart, MessageCircle } from 'lucide-react';
 
+// Add this type definition
+type FloatingElement = {
+  id: number;
+  x: number;
+  y: number;
+  delay: number;
+  duration: number;
+  size: number;
+};
+
+// Add this type for particles too
+type Particle = {
+  id: number;
+  x: number;
+  y: number;
+};
+
 export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: '',
@@ -17,8 +34,8 @@ export default function ContactPage() {
   const [displayedText, setDisplayedText] = useState('');
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [floatingElements, setFloatingElements] = useState([]);
-  const [particles, setParticles] = useState([]);
+  const [floatingElements, setFloatingElements] = useState<FloatingElement[]>([]);
+  const [particles, setParticles] = useState<Particle[]>([]);
 
   const typewriterWords = [
     "Your Success Story",
@@ -64,7 +81,7 @@ export default function ContactPage() {
 
   // Mouse trail effect
   useEffect(() => {
-    const handleMouseMove = (e) => {
+    const handleMouseMove = (e: MouseEvent) => {
       if (Math.random() > 0.8) {
         const newParticle = {
           id: Date.now() + Math.random(),
@@ -87,7 +104,7 @@ export default function ContactPage() {
     return () => clearInterval(interval);
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Create celebration effect
     const celebration = Array.from({ length: 30 }, () => ({
@@ -316,7 +333,7 @@ export default function ContactPage() {
                   <h2 className="text-4xl font-black text-blue-900">Drop Us a Line</h2>
                 </div>
                 
-                <div className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="group">
                     <label className="block text-gray-700 font-bold mb-2 group-hover:text-orange-500 transition-colors">
                       Full Name *
@@ -394,7 +411,7 @@ export default function ContactPage() {
                   </div>
 
                   <button
-                    onClick={handleSubmit}
+                    type="submit"
                     className="group relative w-full py-5 bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 text-white rounded-2xl font-bold text-lg hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl overflow-hidden"
                   >
                     <span className="relative z-10 flex items-center justify-center space-x-3">
@@ -409,7 +426,7 @@ export default function ContactPage() {
                     <Zap className="w-4 h-4 text-orange-500" />
                     <span>Lightning-fast response within 24 hours!</span>
                   </p>
-                </div>
+                </form>
               </div>
             </div>
 
