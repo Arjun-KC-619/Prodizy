@@ -54,7 +54,7 @@ export default function HomePage() {
 
   // Mouse trail
   useEffect(() => {
-    const handleMouseMove = (e) => {
+    const handleMouseMove = (e: MouseEvent) => {
       if (Math.random() > 0.7) {
         const newParticle = {
           id: Date.now() + Math.random(),
